@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Edit Scooter</title>
+</head>
+<body>
+<div align="center">
+    <h1>Edit Scooter</h1>
+    <br />
+    <!--
+    The form below uses a structure similar to the new-scooter page.  But this time,
+    since the Scooter object fields were populated before it was added to the model, their
+    values populate the fields here. Any changes to the fields then POST to the update endpoint.
+    -->
+    <form action="#" th:action="@{'/scooter/update/' + ${scooter.id}}" th:object="${scooter}"
+          method="post">
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Scooter ID:</td>
+                <td><input type="text" th:field="*{id}" readonly/></td>
+            </tr>
+            <tr>
+                <td>Year:</td>
+                <td><input type="number" th:field="*{year}" required/></td>
+            </tr>
+            <tr>
+                <td>Manufacturer:</td>
+                <td><input type="text" th:field="*{manufacturer}" required/></td>
+            </tr>
+            <tr>
+                <td>Model:</td>
+                <td><input type="text" th:field="*{model}" required/></td>
+            </tr>
+            <tr>
+                <td>Engine Size:</td>
+                <td><input type="number" th:field="*{engineSize}" required/></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Save</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
