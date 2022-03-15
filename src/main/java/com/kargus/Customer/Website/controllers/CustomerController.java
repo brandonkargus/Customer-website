@@ -2,6 +2,7 @@ package com.kargus.Customer.Website.controllers;
 
 import com.kargus.Customer.Website.models.Customer;
 import com.kargus.Customer.Website.models.Scooter;
+import com.kargus.Customer.Website.models.ScooterSelection;
 import com.kargus.Customer.Website.services.CustomerService;
 import com.kargus.Customer.Website.services.ScooterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +90,7 @@ public class CustomerController {
     }
 
     @GetMapping("/assign/{id}")
-    public String assignScooterToCustomer(@PathVariable(name = "id") Long id, Model model) {
+    public String getScooterAssignment(@PathVariable(name = "id") Long id, Model model) {
         if(customerService.getCustomer(id) == null) {
             return "error-page";
         }
@@ -100,11 +101,28 @@ public class CustomerController {
         availableScooterList.removeIf(scooter -> scooter.getCustomer() != null);
         unavailableScooterList.removeIf(scooter -> scooter.getCustomer() == null);
 
-                                                                                                               //TODO implemented validation for if scooter is assigned
+
         model.addAttribute("availableScooterList", availableScooterList);
         model.addAttribute("unavailableScooterList", unavailableScooterList);
+        model.addAttribute("scooterSelection", new ScooterSelection());
 
         return "assign-scooter";
+    }
+
+    @PostMapping("/assign/{customerId}")
+    public String assignScooterToCustomer(@PathVariable(name = "customerId") Long id, @ModelAttribute(name = "scooterSelection") ScooterSelection scooterSelection) {
+                    if(scooterSelection == null) {
+                        return "error-page";
+                    }
+                    customerService.assignScooterToCustomer(id, scooterSelection.getId());
+                    scooterService.assignScooterToCustomer(scooterSelection.getId(), id);
+
+
+
+
+                    //TODO implement logic to assign customer/scooter, also check for null in scooterSelection
+
+        return "redirect:/";
     }
 
 }

@@ -11,46 +11,38 @@
     </h1>
     <br/><br/>
     <h3>AVAILABLE</h3>
-    <table border="1" cellpadding="10">
-        <thead>
-        <tr>
-            <!--
-            You are creating a table here, where the header will be the Scooter
-            details and then the other rows will be filled by the data that
-            you send back in the Model object.
-            -->
-            <th>Scooter ID</th>
-            <th>Year</th>
-            <th>Manufacturer</th>
-            <th>Model</th>
-            <th>Engine Size (cc)</th>
-            <th>Select</th>
-        </tr>
-        </thead>
-        <!--
-         Now that your headers are defined, you can reference the key-value
-         pair "scooterList" that you added to the model above.
-         Thymeleaf will loop over each scooter and extract the attributes to match
-         your column names.
-        -->
-        <tbody>
-        <tr th:each="scooter : ${availableScooterList}">
-            <td th:text="${scooter.id}">Scooter ID</td>
-            <td th:text="${scooter.year}">Year</td>
-            <td th:text="${scooter.manufacturer}">Manufacturer</td>
-            <td th:text="${scooter.model}">Model</td>
-            <td th:text="${scooter.engineSize}">Engine Size (cc)</td>
 
-            <td><input type="radio" name="scooter-choice" value="${scooter.id}"></td>
+    <form action="#" th:action="@{'/assign/' + ${customerId}}" th:object="${scooterSelection}" method="post">
+        <table border="1" cellpadding="10">
+            <thead>
+            <tr>
+                <th>Scooter ID</th>
+                <th>Year</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Engine Size (cc)</th>
+                <th>Select</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="scooter : ${availableScooterList}">
+                <td th:text="${scooter.id}">Scooter ID</td>
+                <td th:text="${scooter.year}">Year</td>
+                <td th:text="${scooter.manufacturer}">Manufacturer</td>
+                <td th:text="${scooter.model}">Model</td>
+                <td th:text="${scooter.engineSize}">Engine Size (cc)</td>
+
+                <td><input type="radio" name="scooter-choice" th:value="${scooter.id}" th:field="*{id}"></td>
 
 
-        </tr>
+            </tr>
 
-        </tbody>
+            </tbody>
 
-    </table>
-    <br/>
-    <a th:href="@{/}">Go Back</a> &nbsp; &nbsp; <input type="submit" value="Submit">
+        </table>
+        <br/>
+        <a th:href="@{/}">Go Back</a> &nbsp; &nbsp; <input type="submit" value="Submit">
+    </form>
     <br/>
     <br/>
     <h3>UNAVAILABLE</h3>
@@ -74,7 +66,7 @@
             <td th:text="${scooter.manufacturer}">Manufacturer</td>
             <td th:text="${scooter.model}">Model</td>
             <td th:text="${scooter.engineSize}">Engine Size (cc)</td>
-            <td>Person renting displayed here</td>
+            <td th:text="${scooter.customer}"></td>
         </tr>
 
         </tbody>

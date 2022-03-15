@@ -8,11 +8,14 @@ public interface CustomerService {
 
     List<Customer> getAllCustomers();
 
-    Customer saveCustomer(Customer customer);
+    void saveCustomer(Customer customer);
 
     Customer getCustomer(Long id);
 
     void deleteCustomer(Long id);
 
-    List<Customer> saveAllCustomer(List<Customer> customerList);
+    void saveAllCustomer(List<Customer> customerList);
+
+    void assignScooterToCustomer(Long customer, Long scooterId);
+
 }

@@ -41,8 +41,9 @@
             <td><a th:href="@{'/edit/' + ${customer.id}}">Edit</a>
                 <a th:href="@{'/delete/' + ${customer.id}}">Delete</a></td>
 
-            <td><a th:href="@{'/assign/' + ${customer.id}}">Assign</a>
-                <a>Remove</a></td>
+            <td><a th:href="@{'/assign/' + ${customer.id}}" th:if="${customer.scooter == null}">Assign</a>
+                <a th:href="@{'/remove/' + ${customer.id}}" th:if="${customer.scooter != null}">Remove</a>      <!-- add remove endpoint and logic -->
+            </td>
         </tr>
 
         </tbody>

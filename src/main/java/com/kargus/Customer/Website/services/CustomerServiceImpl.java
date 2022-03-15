@@ -4,6 +4,7 @@ import com.kargus.Customer.Website.models.Customer;
 import com.kargus.Customer.Website.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +27,9 @@ public class CustomerServiceImpl implements CustomerService {
     // The save function uses an INSERT query in the DB.
     @Override
     @Transactional
-    public Customer saveCustomer(Customer customer) throws IllegalStateException {
+    public void saveCustomer(Customer customer) throws IllegalStateException {
         customer.validate();
-        return customerRepository.save(customer);
+        customerRepository.save(customer);
     }
 
     // The findById function uses a SELECT query with a WHERE clause in the DB.
@@ -48,7 +49,15 @@ public class CustomerServiceImpl implements CustomerService {
     // The saveAll function would do multiple INSERTS into the DB.
     @Override
     @Transactional
-    public List<Customer> saveAllCustomer(List<Customer> customerList) {
-        return customerRepository.saveAll(customerList);
+    public void saveAllCustomer(List<Customer> customerList) {
+        customerRepository.saveAll(customerList);
+    }
+
+    @Override
+    @Transactional
+    @Modifying
+    public void assignScooterToCustomer(Long customerId, Long scooterId) {
+
+        customerRepository.addScooterToCustomer(customerId, scooterId);
     }
 }

@@ -51,5 +51,12 @@ public class ScooterServiceImpl implements ScooterService {
     public List<Scooter> saveAllScooter(List<Scooter> scooterList) {
         return scooterRepository.saveAll(scooterList);
     }
+
+    @Override
+    @Transactional
+    public void assignScooterToCustomer(Long scooterId, Long customerId) {
+        scooterRepository.addCustomerToScooter(scooterId, customerId);
+
+    }
 }
 

@@ -15,4 +15,6 @@ public interface ScooterService {
     void deleteScooter(Long id);
 
     List<Scooter> saveAllScooter(List<Scooter> scooterList);
+
+    void assignScooterToCustomer(Long scooterId, Long customerId);
 }
