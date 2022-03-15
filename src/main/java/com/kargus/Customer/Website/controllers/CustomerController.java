@@ -1,7 +1,9 @@
 package com.kargus.Customer.Website.controllers;
 
 import com.kargus.Customer.Website.models.Customer;
+import com.kargus.Customer.Website.models.Scooter;
 import com.kargus.Customer.Website.services.CustomerService;
+import com.kargus.Customer.Website.services.ScooterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private ScooterService scooterService;
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
@@ -52,7 +57,7 @@ public class CustomerController {
         // certain circumstances. The view name is passed to the constructor.
         ModelAndView mav = new ModelAndView("edit-customer");
         if(customerService.getCustomer(id) == null) {
-            ModelAndView errorModelAndView = new ModelAndView("error-page");           //TODO implemented check for null and handled error
+            ModelAndView errorModelAndView = new ModelAndView("error-page");           //TODO (DONE) implemented check for null and handled error
             errorModelAndView.addObject("error", HttpStatus.NOT_FOUND);
             return errorModelAndView;
         }
@@ -81,6 +86,25 @@ public class CustomerController {
 
         customerService.deleteCustomer(id);
         return "redirect:/";
+    }
+
+    @GetMapping("/assign/{id}")
+    public String assignScooterToCustomer(@PathVariable(name = "id") Long id, Model model) {
+        if(customerService.getCustomer(id) == null) {
+            return "error-page";
+        }
+        model.addAttribute("customerId", id);
+        final List<Scooter> availableScooterList = scooterService.getAllScooters();
+        final List<Scooter> unavailableScooterList = scooterService.getAllScooters();
+
+        availableScooterList.removeIf(scooter -> scooter.getCustomer() != null);
+        unavailableScooterList.removeIf(scooter -> scooter.getCustomer() == null);
+
+                                                                                                               //TODO implemented validation for if scooter is assigned
+        model.addAttribute("availableScooterList", availableScooterList);
+        model.addAttribute("unavailableScooterList", unavailableScooterList);
+
+        return "assign-scooter";
     }
 
 }

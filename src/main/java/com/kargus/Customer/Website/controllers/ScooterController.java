@@ -51,7 +51,7 @@ public class ScooterController {
         // Since the previous methods use Model, this one uses ModelAndView
         ModelAndView mav = new ModelAndView("edit-scooter");
         if (scooterService.getScooter(id) == null) {
-            ModelAndView errorModelAndView = new ModelAndView("error-page");           //TODO implemented check for null and handled error
+            ModelAndView errorModelAndView = new ModelAndView("error-page");
             errorModelAndView.addObject("error", HttpStatus.NOT_FOUND);
             return errorModelAndView;
         }

@@ -27,6 +27,10 @@ public class Scooter {
 
     private Integer engineSize;
 
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
 
     public void validate() throws IllegalStateException {
         LocalDate currentDate = LocalDate.now();

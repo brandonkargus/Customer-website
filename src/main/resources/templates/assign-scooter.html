@@ -2,12 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>Scooter Manager</title>
+    <title>Scooter Assignment Manager</title>
 </head>
 <body>
 <div align="center">
-    <h1>Scooter List</h1>
+    <h1>Assign Scooter to Customer ID:
+        <th:block th:text="${customerId}"></th:block>
+    </h1>
     <br/><br/>
+    <h3>AVAILABLE</h3>
     <table border="1" cellpadding="10">
         <thead>
         <tr>
@@ -21,8 +24,7 @@
             <th>Manufacturer</th>
             <th>Model</th>
             <th>Engine Size (cc)</th>
-            <th>Actions</th>
-            <th>Rented By</th>
+            <th>Select</th>
         </tr>
         </thead>
         <!--
@@ -32,22 +34,52 @@
          your column names.
         -->
         <tbody>
-        <tr th:each="scooter : ${scooterList}">
+        <tr th:each="scooter : ${availableScooterList}">
             <td th:text="${scooter.id}">Scooter ID</td>
             <td th:text="${scooter.year}">Year</td>
             <td th:text="${scooter.manufacturer}">Manufacturer</td>
             <td th:text="${scooter.model}">Model</td>
             <td th:text="${scooter.engineSize}">Engine Size (cc)</td>
-            <td> <a th:href="@{'/scooter/edit/' + ${scooter.id}}">Edit</a>
-                <a th:href="@{'/scooter/delete/' + ${scooter.id}}">Delete</a></td>
-            <td>AVAILABLE</td>
+
+            <td><input type="radio" name="scooter-choice" value="${scooter.id}"></td>
+
+
         </tr>
 
         </tbody>
 
     </table>
     <br/>
-    <a th:href="@{/scooter/new}">Add New Scooter</a>
+    <a th:href="@{/}">Go Back</a> &nbsp; &nbsp; <input type="submit" value="Submit">
+    <br/>
+    <br/>
+    <h3>UNAVAILABLE</h3>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+
+            <th>Scooter ID</th>
+            <th>Year</th>
+            <th>Manufacturer</th>
+            <th>Model</th>
+            <th>Engine Size (cc)</th>
+            <th>Rented By</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="scooter : ${unavailableScooterList}">
+            <td th:text="${scooter.id}">Scooter ID</td>
+            <td th:text="${scooter.year}">Year</td>
+            <td th:text="${scooter.manufacturer}">Manufacturer</td>
+            <td th:text="${scooter.model}">Model</td>
+            <td th:text="${scooter.engineSize}">Engine Size (cc)</td>
+            <td>Person renting displayed here</td>
+        </tr>
+
+        </tbody>
+
+    </table>
 </div>
 </body>
 </html>
