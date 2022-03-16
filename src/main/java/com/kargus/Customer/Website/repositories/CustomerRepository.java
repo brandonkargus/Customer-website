@@ -15,5 +15,10 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("UPDATE customers SET scooter_id = ?2 WHERE id = ?1")
     void addScooterToCustomer(Long customerId, Long scooterId);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE customers SET scooter_id = NULL WHERE id = ?1")
+    void deleteScooterFromCustomer(Long customerId);
+
 
 }

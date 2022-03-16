@@ -54,9 +54,16 @@ public class ScooterServiceImpl implements ScooterService {
 
     @Override
     @Transactional
-    public void assignScooterToCustomer(Long scooterId, Long customerId) {
+    public void assignCustomerToScooter(Long scooterId, Long customerId) {
         scooterRepository.addCustomerToScooter(scooterId, customerId);
 
+    }
+
+    @Override
+    @Transactional
+    public void removeCustomerFromScooter(Long scooterId) {
+
+        scooterRepository.deleteCustomerFromScooter(scooterId);
     }
 }
 

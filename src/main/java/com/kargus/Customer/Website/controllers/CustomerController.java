@@ -58,7 +58,7 @@ public class CustomerController {
         // certain circumstances. The view name is passed to the constructor.
         ModelAndView mav = new ModelAndView("edit-customer");
         if(customerService.getCustomer(id) == null) {
-            ModelAndView errorModelAndView = new ModelAndView("error-page");           //TODO (DONE) implemented check for null and handled error
+            ModelAndView errorModelAndView = new ModelAndView("error-page");
             errorModelAndView.addObject("error", HttpStatus.NOT_FOUND);
             return errorModelAndView;
         }
@@ -111,16 +111,25 @@ public class CustomerController {
 
     @PostMapping("/assign/{customerId}")
     public String assignScooterToCustomer(@PathVariable(name = "customerId") Long id, @ModelAttribute(name = "scooterSelection") ScooterSelection scooterSelection) {
-                    if(scooterSelection == null) {
+                    if(scooterSelection.getId() == null) {
                         return "error-page";
                     }
                     customerService.assignScooterToCustomer(id, scooterSelection.getId());
-                    scooterService.assignScooterToCustomer(scooterSelection.getId(), id);
+                    scooterService.assignCustomerToScooter(scooterSelection.getId(), id);
 
 
 
+        return "redirect:/";
+    }
 
-                    //TODO implement logic to assign customer/scooter, also check for null in scooterSelection
+    @RequestMapping("/remove/{customerId}")
+    public String removeScooterFromCustomer(@PathVariable(name = "customerId") Long id, @ModelAttribute(name = "scooterSelection") ScooterSelection scooterSelection) {
+        if(customerService.getCustomer(id) == null) {
+            return "error-page";
+        }
+
+        customerService.removeScooterFromCustomer(id);
+        scooterService.removeCustomerFromScooter(scooterSelection.getId());                  //TODO customer updating, but scooter staying the same ??
 
         return "redirect:/";
     }

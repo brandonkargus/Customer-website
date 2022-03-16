@@ -15,4 +15,9 @@ public interface ScooterRepository extends JpaRepository<Scooter, Long> {
     @Query("UPDATE scooters SET customer_id = ?2 WHERE id = ?1")
     void addCustomerToScooter(Long scooterId, Long customerId);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE scooters SET customer_id = NULL WHERE id = ?1")
+    void deleteCustomerFromScooter(Long scooterId);
+
 }

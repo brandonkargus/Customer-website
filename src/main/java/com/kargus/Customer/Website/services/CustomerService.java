@@ -18,4 +18,6 @@ public interface CustomerService {
 
     void assignScooterToCustomer(Long customer, Long scooterId);
 
+    void removeScooterFromCustomer(Long customer);
+
 }

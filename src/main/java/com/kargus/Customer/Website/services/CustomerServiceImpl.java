@@ -60,4 +60,12 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerRepository.addScooterToCustomer(customerId, scooterId);
     }
+
+    @Override
+    @Transactional
+    @Modifying
+    public void removeScooterFromCustomer(Long customerId) {
+
+        customerRepository.deleteScooterFromCustomer(customerId);
+    }
 }
