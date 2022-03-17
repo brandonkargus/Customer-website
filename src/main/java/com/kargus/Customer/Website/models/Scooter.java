@@ -27,7 +27,7 @@ public class Scooter {
 
     private Integer engineSize;
 
-    @OneToOne
+    @OneToOne(mappedBy = "scooter")
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

@@ -41,7 +41,7 @@
 
         </table>
         <br/>
-        <button th:onClick="@{/}">Go Back</button> &nbsp; &nbsp; <input type="submit" value="Submit">
+        <input type="button"  value ="Go Back" th:onClick="window.history.back()"/> &nbsp; &nbsp; <input type="submit" value="Submit">
     </form>
     <br/>
     <br/>
@@ -66,7 +66,7 @@
             <td th:text="${scooter.manufacturer}">Manufacturer</td>
             <td th:text="${scooter.model}">Model</td>
             <td th:text="${scooter.engineSize}">Engine Size (cc)</td>
-            <td th:text="${scooter.customer}"></td>
+            <td         ></td>
         </tr>
 
         </tbody>

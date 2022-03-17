@@ -42,7 +42,8 @@
                 <a th:href="@{'/delete/' + ${customer.id}}">Delete</a></td>
 
             <td><a th:href="@{'/assign/' + ${customer.id}}" th:if="${customer.scooter == null}">Assign</a>
-                <a th:href="@{'/remove/' + ${customer.id}}" th:if="${customer.scooter != null}">Remove</a>      <!-- add remove endpoint and logic -->
+                <th:block th:text="${customer.scooter.getId()}" th:if="${customer.scooter != null}"></th:block>
+                <a th:href="@{'/remove/' + ${customer.id}}" th:if="${customer.scooter != null}">Remove</a>
             </td>
         </tr>
 

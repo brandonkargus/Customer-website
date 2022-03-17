@@ -1,6 +1,7 @@
 package com.kargus.Customer.Website.services;
 
 import com.kargus.Customer.Website.models.Customer;
+import com.kargus.Customer.Website.models.Scooter;
 import com.kargus.Customer.Website.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     final CustomerRepository customerRepository;
+
+    @Autowired
+    final ScooterService scooterService;
 
     // The findAll function gets all the customers by doing a SELECT query in the DB.
     @Override
@@ -58,7 +62,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Modifying
     public void assignScooterToCustomer(Long customerId, Long scooterId) {
 
-        customerRepository.addScooterToCustomer(customerId, scooterId);
+        //customerRepository.addScooterToCustomer(customerId, scooterId);
+        Customer customer = customerRepository.getById(customerId);
+        Scooter scooter = scooterService.getScooter(scooterId);
+
+        customer.setScooter(scooter);
+        customerRepository.save(customer);
+
     }
 
     @Override
@@ -66,6 +76,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Modifying
     public void removeScooterFromCustomer(Long customerId) {
 
-        customerRepository.deleteScooterFromCustomer(customerId);
+        Customer customer = customerRepository.getById(customerId);
+
+        customer.setScooter(null);
+        customerRepository.save(customer);
+
     }
 }

@@ -57,7 +57,7 @@ public class CustomerController {
         // but ModelAndView accomplishes the same thing and can be useful in
         // certain circumstances. The view name is passed to the constructor.
         ModelAndView mav = new ModelAndView("edit-customer");
-        if(customerService.getCustomer(id) == null) {
+        if (customerService.getCustomer(id) == null) {
             ModelAndView errorModelAndView = new ModelAndView("error-page");
             errorModelAndView.addObject("error", HttpStatus.NOT_FOUND);
             return errorModelAndView;
@@ -71,8 +71,7 @@ public class CustomerController {
     @PostMapping("/update/{id}")
     public String updateCustomer(@PathVariable(name = "id") Long id, @ModelAttribute("customer") Customer customer, Model model) {
         if (customerService.getCustomer(id) == null) {
-            model.addAttribute("error",
-                    "Can Not Update");
+            model.addAttribute("error",HttpStatus.NOT_FOUND);
             return "error-page";
         }
         customerService.saveCustomer(customer);
@@ -80,8 +79,10 @@ public class CustomerController {
     }
 
     @RequestMapping("/delete/{id}")
-    public String deleteCustomer(@PathVariable(name = "id") Long id) {
-        if(customerService.getCustomer(id) == null) {
+    public String deleteCustomer(@PathVariable(name = "id") Long id, Model model) {
+        if (customerService.getCustomer(id) == null) {
+            model.addAttribute("error", HttpStatus.NOT_FOUND);
+
             return "error-page";
         }
 
@@ -91,7 +92,9 @@ public class CustomerController {
 
     @GetMapping("/assign/{id}")
     public String getScooterAssignment(@PathVariable(name = "id") Long id, Model model) {
-        if(customerService.getCustomer(id) == null) {
+        if (customerService.getCustomer(id) == null) {
+            model.addAttribute("error", HttpStatus.NOT_FOUND);
+
             return "error-page";
         }
         model.addAttribute("customerId", id);
@@ -110,26 +113,30 @@ public class CustomerController {
     }
 
     @PostMapping("/assign/{customerId}")
-    public String assignScooterToCustomer(@PathVariable(name = "customerId") Long id, @ModelAttribute(name = "scooterSelection") ScooterSelection scooterSelection) {
-                    if(scooterSelection.getId() == null) {
-                        return "error-page";
-                    }
-                    customerService.assignScooterToCustomer(id, scooterSelection.getId());
-                    scooterService.assignCustomerToScooter(scooterSelection.getId(), id);
+    public String assignScooterToCustomer(@PathVariable(name = "customerId") Long id, @ModelAttribute(name = "scooterSelection") ScooterSelection scooterSelection, Model model) {
+        if (scooterSelection.getId() == null) {
+            model.addAttribute("error",
+                    "No Scooter Selected.");
 
+            return "error-page";
+        }
+        customerService.assignScooterToCustomer(id, scooterSelection.getId());
 
 
         return "redirect:/";
     }
 
     @RequestMapping("/remove/{customerId}")
-    public String removeScooterFromCustomer(@PathVariable(name = "customerId") Long id, @ModelAttribute(name = "scooterSelection") ScooterSelection scooterSelection) {
-        if(customerService.getCustomer(id) == null) {
+    public String removeScooterFromCustomer(@PathVariable(name = "customerId") Long id, @ModelAttribute(name = "scooterSelection") ScooterSelection scooterSelection, Model model) {
+        if (customerService.getCustomer(id) == null) {
+            model.addAttribute("error",
+                    "Action not available.");
+
             return "error-page";
         }
 
         customerService.removeScooterFromCustomer(id);
-        scooterService.removeCustomerFromScooter(scooterSelection.getId());                  //TODO customer updating, but scooter staying the same ??
+
 
         return "redirect:/";
     }
