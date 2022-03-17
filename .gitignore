@@ -4,6 +4,12 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+build.gradle
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+
 
 ### STS ###
 .apt_generated
